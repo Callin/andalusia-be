@@ -29,7 +29,6 @@ public class OrganizationService {
 
     public List<Organization> getAllOrganizations() {
         List<OrganizationEntity> organizationEntityList = organizationRepo.findAll();
-
         return organizationEntityList
                 .stream()
                 .map(organizationEntity -> mapper.map(organizationEntity, Organization.class))
@@ -37,18 +36,14 @@ public class OrganizationService {
     }
 
     public Organization createOrganization(Organization organization) {
-
         OrganizationEntity organizationEntity =
                 organizationRepo.save(mapper.map(organization, OrganizationEntity.class));
-
         return mapper.map(organizationEntity, Organization.class);
     }
 
     public Organization updateOrganization(Organization organization) {
-
         OrganizationEntity organizationEntity =
                 organizationRepo.save(mapper.map(organization, OrganizationEntity.class));
-
         return mapper.map(organizationEntity, Organization.class);
     }
 

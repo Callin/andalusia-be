@@ -4,13 +4,12 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Entity
-@Table(name = "organization")
+@Table(name = "user")
 @Getter
 @Setter
-public class OrganizationEntity {
+public class UserEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,9 +17,9 @@ public class OrganizationEntity {
 
     private String name;
 
-    private String description;
+    private String email;
 
-    @OneToMany(mappedBy = "organization", fetch = FetchType.EAGER)
-    private List<UserEntity> userList;
-
+    @ManyToOne
+    @JoinColumn(name = "organization_id")
+    private OrganizationEntity organization;
 }

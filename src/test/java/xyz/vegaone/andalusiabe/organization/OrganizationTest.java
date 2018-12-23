@@ -1,6 +1,7 @@
 package xyz.vegaone.andalusiabe.organization;
 
 import org.dozer.Mapper;
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -13,14 +14,15 @@ import xyz.vegaone.andalusiabe.repo.OrganizationRepo;
 import xyz.vegaone.andalusiabe.service.OrganizationService;
 
 import javax.persistence.EntityNotFoundException;
+import java.util.List;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class OrganizationTest {
 
     private final static Long ID = 1L;
-    private final static String ORGANIZATION_NAME = "Organization name";
-    private final static String ORGANIZATION_NEW_NAME = "Organization name two";
+    private final static String ORGANIZATION_NAME_ONE = "Organization name one";
+    private final static String ORGANIZATION_NAME_TWO = "Organization name two";
     private final static String ORGANIZATION_DESCRIPTION = "Organization description";
 
     @Autowired
@@ -32,10 +34,15 @@ public class OrganizationTest {
     @Autowired
     private OrganizationService organizationService;
 
+    @After
+    public void after() {
+        organizationRepo.deleteAll();
+    }
+
     @Test
     public void getOrganizationTest() {
         // given
-        OrganizationEntity organizationEntity = organizationRepo.save(buildOrganizationEntity());
+        OrganizationEntity organizationEntity = organizationRepo.save(buildOrganizationEntity(ORGANIZATION_NAME_ONE));
 
         // when
         Organization organization = organizationService.getOrganization(organizationEntity.getId());
@@ -47,10 +54,23 @@ public class OrganizationTest {
     }
 
     @Test
+    public void getAllOrganizationsTest() {
+        // given
+        organizationRepo.save(buildOrganizationEntity(ORGANIZATION_NAME_ONE));
+        organizationRepo.save(buildOrganizationEntity(ORGANIZATION_NAME_TWO));
+
+        // when
+        List<Organization> organizationList = organizationService.getAllOrganizations();
+
+        // then
+        Assert.assertEquals("There should have been 2 organizations", 2, organizationList.size());
+    }
+
+    @Test
     public void updateOrganizationTest() {
         // given
-        OrganizationEntity organizationEntity = organizationRepo.save(buildOrganizationEntity());
-        organizationEntity.setName(ORGANIZATION_NEW_NAME);
+        OrganizationEntity organizationEntity = organizationRepo.save(buildOrganizationEntity(ORGANIZATION_NAME_ONE));
+        organizationEntity.setName(ORGANIZATION_NAME_TWO);
 
         // when
         Organization organization = organizationService.updateOrganization(mapper.map(organizationEntity, Organization.class));
@@ -64,7 +84,7 @@ public class OrganizationTest {
     @Test(expected = EntityNotFoundException.class)
     public void deleteOrganizationTest() {
         // given
-        OrganizationEntity organizationEntity = organizationRepo.save(buildOrganizationEntity());
+        OrganizationEntity organizationEntity = organizationRepo.save(buildOrganizationEntity(ORGANIZATION_NAME_ONE));
 
         // when
         organizationService.deleteOrganization(organizationEntity.getId());
@@ -76,15 +96,15 @@ public class OrganizationTest {
     private Organization buildOrganization() {
         Organization organization = new Organization();
         organization.setId(ID);
-        organization.setName(ORGANIZATION_NAME);
+        organization.setName(ORGANIZATION_NAME_ONE);
         organization.setDescription(ORGANIZATION_DESCRIPTION);
 
         return organization;
     }
 
-    private OrganizationEntity buildOrganizationEntity() {
+    private OrganizationEntity buildOrganizationEntity(String name) {
         OrganizationEntity organizationEntity = new OrganizationEntity();
-        organizationEntity.setName(ORGANIZATION_NAME);
+        organizationEntity.setName(name);
         organizationEntity.setDescription(ORGANIZATION_DESCRIPTION);
 
         return organizationEntity;
