@@ -4,6 +4,8 @@ import org.springframework.web.bind.annotation.*;
 import xyz.vegaone.andalusiabe.dto.Organization;
 import xyz.vegaone.andalusiabe.service.OrganizationService;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/organization")
 public class OrganizationController {
@@ -16,6 +18,11 @@ public class OrganizationController {
     @GetMapping("{id}")
     public Organization getOrganization(@PathVariable Long id) {
         return organizationService.getOrganization(id);
+    }
+
+    @GetMapping("/all")
+    public List<Organization> getAllOrganizations() {
+        return organizationService.getAllOrganizations();
     }
 
     @PostMapping

@@ -7,6 +7,8 @@ import xyz.vegaone.andalusiabe.dto.Organization;
 import xyz.vegaone.andalusiabe.repo.OrganizationRepo;
 
 import javax.persistence.EntityNotFoundException;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class OrganizationService {
@@ -23,6 +25,15 @@ public class OrganizationService {
     public Organization getOrganization(Long id) {
         OrganizationEntity organizationEntity = organizationRepo.findById(id).orElseThrow(EntityNotFoundException::new);
         return mapper.map(organizationEntity, Organization.class);
+    }
+
+    public List<Organization> getAllOrganizations() {
+        List<OrganizationEntity> organizationEntityList = organizationRepo.findAll();
+
+        return organizationEntityList
+                .stream()
+                .map(organizationEntity -> mapper.map(organizationEntity, Organization.class))
+                .collect(Collectors.toList());
     }
 
     public Organization createOrganization(Organization organization) {

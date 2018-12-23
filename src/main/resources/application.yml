@@ -3,7 +3,6 @@ spring:
     url: jdbc:mysql://localhost:3306/andalusia?autoReconnect=true&useSSL=false
     username: andalusia
     password: andalusia
-    driver-class-name: com.mysql.jdbc.Driver
   jpa:
     hibernate:
       naming:
