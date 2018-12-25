@@ -42,3 +42,14 @@ databaseChangeLog:
               name: organization_id
               type: bigint
           tableName: user
+  - changeSet:
+      id: 3
+      author: dragos
+      changes:
+      - addForeignKeyConstraint:
+          baseColumnNames: organization_id
+          baseTableName: user
+          constraintName: fk_organization_user
+          referencedColumnNames: id
+          referencedTableName: organization
+
