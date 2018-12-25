@@ -24,30 +24,47 @@ public class OrganizationService {
 
     public Organization getOrganization(Long id) {
         OrganizationEntity organizationEntity = organizationRepo.findById(id).orElseThrow(EntityNotFoundException::new);
-        return mapper.map(organizationEntity, Organization.class);
+
+        return mapOrganizationAndRemoveOrganizationFromUser(organizationEntity);
     }
 
     public List<Organization> getAllOrganizations() {
         List<OrganizationEntity> organizationEntityList = organizationRepo.findAll();
         return organizationEntityList
                 .stream()
-                .map(organizationEntity -> mapper.map(organizationEntity, Organization.class))
+                .map(this::mapOrganizationAndRemoveOrganizationFromUser)
                 .collect(Collectors.toList());
     }
+
 
     public Organization createOrganization(Organization organization) {
         OrganizationEntity organizationEntity =
                 organizationRepo.save(mapper.map(organization, OrganizationEntity.class));
-        return mapper.map(organizationEntity, Organization.class);
+        return mapOrganizationAndRemoveOrganizationFromUser(organizationEntity);
     }
 
     public Organization updateOrganization(Organization organization) {
         OrganizationEntity organizationEntity =
                 organizationRepo.save(mapper.map(organization, OrganizationEntity.class));
-        return mapper.map(organizationEntity, Organization.class);
+        return mapOrganizationAndRemoveOrganizationFromUser(organizationEntity);
     }
 
     public void deleteOrganization(Long id) {
         organizationRepo.deleteById(id);
+    }
+
+    /**
+     * Breaks circular reference of Organization that has a list of Users that have an Organization that has a list of
+     * USers.
+     *
+     * @param organizationEntity the organization that will have it's circular reference fixed
+     * @return the organization
+     */
+    private Organization mapOrganizationAndRemoveOrganizationFromUser(OrganizationEntity organizationEntity) {
+        Organization organization = mapper.map(organizationEntity, Organization.class);
+        if (organization.getUserList() != null) {
+            organization.getUserList().forEach(user -> user.setOrganization(null));
+        }
+        return organization;
     }
 }

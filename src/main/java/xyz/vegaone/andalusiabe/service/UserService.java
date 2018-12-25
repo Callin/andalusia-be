@@ -5,7 +5,6 @@ import org.springframework.stereotype.Service;
 import xyz.vegaone.andalusiabe.domain.UserEntity;
 import xyz.vegaone.andalusiabe.dto.User;
 import xyz.vegaone.andalusiabe.repo.UserRepo;
-import xyz.vegaone.andalusiabe.repo.UserRepo;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
@@ -24,30 +23,45 @@ public class UserService {
     }
 
     public User getUser(Long id) {
-        UserEntity UserEntity = userRepo.findById(id).orElseThrow(EntityNotFoundException::new);
-        return mapper.map(UserEntity, User.class);
+        UserEntity userEntity = userRepo.findById(id).orElseThrow(EntityNotFoundException::new);
+        return mapUserAndRemoveUserListFromOrganization(userEntity);
     }
 
     public List<User> getAllUsers() {
-        List<UserEntity> UserEntityList = userRepo.findAll();
+        List<UserEntity> userEntityList = userRepo.findAll();
 
-        return UserEntityList
+        return userEntityList
                 .stream()
-                .map(UserEntity -> mapper.map(UserEntity, User.class))
+                .map(this::mapUserAndRemoveUserListFromOrganization)
                 .collect(Collectors.toList());
     }
 
     public User createUser(User User) {
-        UserEntity UserEntity = userRepo.save(mapper.map(User, UserEntity.class));
-        return mapper.map(UserEntity, User.class);
+        UserEntity userEntity = userRepo.save(mapper.map(User, UserEntity.class));
+        return mapUserAndRemoveUserListFromOrganization(userEntity);
     }
 
     public User updateUser(User User) {
-        UserEntity UserEntity = userRepo.save(mapper.map(User, UserEntity.class));
-        return mapper.map(UserEntity, User.class);
+        UserEntity userEntity = userRepo.save(mapper.map(User, UserEntity.class));
+        return mapUserAndRemoveUserListFromOrganization(userEntity);
     }
 
     public void deleteUser(Long id) {
         userRepo.deleteById(id);
+    }
+
+    /**
+     * Breaks circular reference of Organization that has a list of Users that have an Organization that has a list of
+     * Users.
+     *
+     * @param userEntity the user that will have it's circular reference fixed
+     * @return the organization
+     */
+    private User mapUserAndRemoveUserListFromOrganization(UserEntity userEntity) {
+        User user = mapper.map(userEntity, User.class);
+        if (user.getOrganization() != null) {
+            user.getOrganization().setUserList(null);
+        }
+        return user;
     }
 }
