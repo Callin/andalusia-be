@@ -2,8 +2,10 @@ package xyz.vegaone.andalusiabe.domain;
 
 import lombok.Getter;
 import lombok.Setter;
+import xyz.vegaone.andalusiabe.dto.Project;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "user")
@@ -22,4 +24,7 @@ public class UserEntity {
     @ManyToOne
     @JoinColumn(name = "organization_id")
     private OrganizationEntity organization;
+
+    @ManyToMany(mappedBy = "users")
+    private List<ProjectEntity> projects;
 }

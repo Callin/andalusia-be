@@ -16,6 +16,8 @@ public class Organization {
 
     private String description;
 
-    private List<User> userList;
+    private List<User> users;
+
+    private List<Project> projects;
 
 }

@@ -52,4 +52,112 @@ databaseChangeLog:
           constraintName: fk_organization_user
           referencedColumnNames: id
           referencedTableName: organization
-
+  - changeSet:
+      id: 4
+      author: dragos
+      changes:
+      - createTable:
+          columns:
+          - column:
+              name: id
+              type: bigint
+              autoIncrement: true
+              constraints:
+                primaryKey: true
+                nullable: false
+          - column:
+              name: name
+              type: varchar(255)
+          - column:
+              name: description
+              type: varchar(255)
+          - column:
+              name: organization_id
+              type: bigint
+          tableName: project
+  - changeSet:
+      id: 5
+      author: dragos
+      changes:
+      - addForeignKeyConstraint:
+          baseColumnNames: organization_id
+          baseTableName: project
+          constraintName: fk_organization_project
+          referencedColumnNames: id
+          referencedTableName: organization
+  - changeSet:
+      id: 6
+      author: dragos
+      changes:
+      - createTable:
+          columns:
+          - column:
+              name: id
+              type: bigint
+              autoIncrement: true
+              constraints:
+                primaryKey: true
+                nullable: false
+          - column:
+              name: number
+              type: int
+          - column:
+              name: startDate
+              type: date
+          - column:
+              name: endDate
+              type: date
+          - column:
+              name: project_id
+              type: bigint
+          tableName: sprint
+  - changeSet:
+      id: 7
+      author: dragos
+      changes:
+      - addForeignKeyConstraint:
+          baseColumnNames: project_id
+          baseTableName: sprint
+          constraintName: fk_project_sprint
+          referencedColumnNames: id
+          referencedTableName: project
+  - changeSet:
+      id: 8
+      author: dragos
+      changes:
+      - createTable:
+          columns:
+          - column:
+              name: id
+              type: bigint
+              autoIncrement: true
+              constraints:
+                primaryKey: true
+                nullable: false
+          - column:
+              name: project_id
+              type: bigint
+          - column:
+              name: user_id
+              type: bigint
+          tableName: project_user
+  - changeSet:
+      id: 9
+      author: dragos
+      changes:
+      - addForeignKeyConstraint:
+          baseColumnNames: project_id
+          baseTableName: project_user
+          constraintName: fk_project_project_user
+          referencedColumnNames: id
+          referencedTableName: project
+  - changeSet:
+      id: 10
+      author: dragos
+      changes:
+      - addForeignKeyConstraint:
+          baseColumnNames: user_id
+          baseTableName: project_user
+          constraintName: fk_user_project_user
+          referencedColumnNames: id
+          referencedTableName: user

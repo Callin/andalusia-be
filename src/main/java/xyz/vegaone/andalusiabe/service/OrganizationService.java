@@ -62,8 +62,8 @@ public class OrganizationService {
      */
     private Organization mapOrganizationAndRemoveOrganizationFromUser(OrganizationEntity organizationEntity) {
         Organization organization = mapper.map(organizationEntity, Organization.class);
-        if (organization.getUserList() != null) {
-            organization.getUserList().forEach(user -> user.setOrganization(null));
+        if (organization.getUsers() != null) {
+            organization.getUsers().forEach(user -> user.setOrganization(null));
         }
         return organization;
     }

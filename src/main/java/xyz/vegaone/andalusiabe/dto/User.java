@@ -3,6 +3,8 @@ package xyz.vegaone.andalusiabe.dto;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
+
 @Getter
 @Setter
 public class User {
@@ -14,4 +16,6 @@ public class User {
     private String email;
 
     private Organization organization;
+
+    private List<Project> projects;
 }

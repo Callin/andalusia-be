@@ -11,8 +11,8 @@ import java.util.List;
 public class UserController {
     private UserService userService;
 
-    public UserController(UserService UserService) {
-        this.userService = UserService;
+    public UserController(UserService userService) {
+        this.userService = userService;
     }
 
     @GetMapping("{id}")
@@ -25,14 +25,19 @@ public class UserController {
         return userService.getAllUsers();
     }
 
+    @GetMapping("/organization/{id}")
+    public List<User> getAllProjectsByOrganizationId(@PathVariable Long id) {
+        return userService.getAllUsersByOrganizationId(id);
+    }
+
     @PostMapping
-    public User createUser(@RequestBody User User) {
-        return userService.createUser(User);
+    public User createUser(@RequestBody User user) {
+        return userService.createUser(user);
     }
 
     @PutMapping
-    public User updateUser(@RequestBody User User) {
-        return userService.updateUser(User);
+    public User updateUser(@RequestBody User user) {
+        return userService.updateUser(user);
     }
 
     @DeleteMapping("{id}")

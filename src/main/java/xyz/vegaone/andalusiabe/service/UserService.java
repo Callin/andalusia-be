@@ -36,6 +36,15 @@ public class UserService {
                 .collect(Collectors.toList());
     }
 
+    public List<User> getAllUsersByOrganizationId(Long id) {
+        List<UserEntity> userEntityList = userRepo.findAllByOrganizationId(id);
+
+        return userEntityList
+                .stream()
+                .map(this::mapUserAndRemoveUserListFromOrganization)
+                .collect(Collectors.toList());
+    }
+
     public User createUser(User User) {
         UserEntity userEntity = userRepo.save(mapper.map(User, UserEntity.class));
         return mapUserAndRemoveUserListFromOrganization(userEntity);
@@ -60,7 +69,7 @@ public class UserService {
     private User mapUserAndRemoveUserListFromOrganization(UserEntity userEntity) {
         User user = mapper.map(userEntity, User.class);
         if (user.getOrganization() != null) {
-            user.getOrganization().setUserList(null);
+            user.getOrganization().setUsers(null);
         }
         return user;
     }

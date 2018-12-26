@@ -21,6 +21,9 @@ public class OrganizationEntity {
     private String description;
 
     @OneToMany(mappedBy = "organization", fetch = FetchType.EAGER)
-    private List<UserEntity> userList;
+    private List<UserEntity> users;
+
+    @OneToMany(mappedBy = "organization")
+    private List<ProjectEntity> projects;
 
 }
