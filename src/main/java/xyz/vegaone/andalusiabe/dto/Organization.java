@@ -17,7 +17,6 @@ public class Organization {
 
     private String description;
 
-    @JsonIgnore
     private List<User> users;
 
     @JsonIgnore
