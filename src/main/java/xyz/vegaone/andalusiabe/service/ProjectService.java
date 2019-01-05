@@ -73,6 +73,10 @@ public class ProjectService {
         if (project.getUsers() != null) {
             project.getUsers().forEach(user -> user.setProjects(null));
         }
+
+        if (project.getSprints() != null) {
+            project.getSprints().forEach(sprint -> sprint.setProject(null));
+        }
         return project;
     }
 }

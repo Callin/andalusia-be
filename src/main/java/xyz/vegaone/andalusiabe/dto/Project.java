@@ -1,14 +1,14 @@
 package xyz.vegaone.andalusiabe.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
 import lombok.Setter;
-import xyz.vegaone.andalusiabe.domain.OrganizationEntity;
-import xyz.vegaone.andalusiabe.domain.UserEntity;
 
 import java.util.List;
 
 @Getter
 @Setter
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Project {
 
     private Long id;
@@ -17,7 +17,7 @@ public class Project {
 
     private String description;
 
-    private OrganizationEntity organization;
+    private Organization organization;
 
     private List<Sprint> sprints;
 

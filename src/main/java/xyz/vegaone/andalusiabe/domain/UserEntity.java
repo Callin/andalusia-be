@@ -2,7 +2,6 @@ package xyz.vegaone.andalusiabe.domain;
 
 import lombok.Getter;
 import lombok.Setter;
-import xyz.vegaone.andalusiabe.dto.Project;
 
 import javax.persistence.*;
 import java.util.List;

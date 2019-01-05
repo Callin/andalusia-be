@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import xyz.vegaone.andalusiabe.domain.OrganizationEntity;
-import xyz.vegaone.andalusiabe.dto.Organization;
 import xyz.vegaone.andalusiabe.repo.OrganizationRepo;
 import xyz.vegaone.andalusiabe.service.OrganizationService;
 
@@ -18,12 +17,12 @@ import java.util.List;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class OrganizationTest {
+public class OrganizationEntityTest {
 
     private final static Long ID = 1L;
-    private final static String ORGANIZATION_NAME_ONE = "Organization name one";
-    private final static String ORGANIZATION_NAME_TWO = "Organization name two";
-    private final static String ORGANIZATION_DESCRIPTION = "Organization description";
+    private final static String ORGANIZATION_NAME_ONE = "OrganizationEntity name one";
+    private final static String ORGANIZATION_NAME_TWO = "OrganizationEntity name two";
+    private final static String ORGANIZATION_DESCRIPTION = "OrganizationEntity description";
 
     @Autowired
     private Mapper mapper;
@@ -45,7 +44,7 @@ public class OrganizationTest {
         OrganizationEntity organizationEntity = organizationRepo.save(buildOrganizationEntity(ORGANIZATION_NAME_ONE));
 
         // when
-        Organization organization = organizationService.getOrganization(organizationEntity.getId());
+        xyz.vegaone.andalusiabe.dto.Organization organization = organizationService.getOrganization(organizationEntity.getId());
 
         // then
         Assert.assertEquals("The id should have matched", organizationEntity.getId(), organization.getId());
@@ -60,7 +59,7 @@ public class OrganizationTest {
         organizationRepo.save(buildOrganizationEntity(ORGANIZATION_NAME_TWO));
 
         // when
-        List<Organization> organizationList = organizationService.getAllOrganizations();
+        List<xyz.vegaone.andalusiabe.dto.Organization> organizationList = organizationService.getAllOrganizations();
 
         // then
         Assert.assertEquals("There should have been 2 organizations", 2, organizationList.size());
@@ -73,7 +72,7 @@ public class OrganizationTest {
         organizationEntity.setName(ORGANIZATION_NAME_TWO);
 
         // when
-        Organization organization = organizationService.updateOrganization(mapper.map(organizationEntity, Organization.class));
+        xyz.vegaone.andalusiabe.dto.Organization organization = organizationService.updateOrganization(mapper.map(organizationEntity, xyz.vegaone.andalusiabe.dto.Organization.class));
 
         // then
         Assert.assertEquals("The id should have matched", organizationEntity.getId(), organization.getId());
@@ -93,8 +92,8 @@ public class OrganizationTest {
         organizationService.getOrganization(organizationEntity.getId());
     }
 
-    private Organization buildOrganization() {
-        Organization organization = new Organization();
+    private xyz.vegaone.andalusiabe.dto.Organization buildOrganization() {
+        xyz.vegaone.andalusiabe.dto.Organization organization = new xyz.vegaone.andalusiabe.dto.Organization();
         organization.setId(ID);
         organization.setName(ORGANIZATION_NAME_ONE);
         organization.setDescription(ORGANIZATION_DESCRIPTION);

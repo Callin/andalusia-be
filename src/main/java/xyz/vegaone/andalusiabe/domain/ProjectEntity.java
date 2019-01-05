@@ -27,7 +27,7 @@ public class ProjectEntity {
     @OneToMany(mappedBy = "project")
     private List<SprintEntity> sprints;
 
-    @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    @ManyToMany(cascade = {CascadeType.MERGE})
     @JoinTable(name = "project_user",
             joinColumns = @JoinColumn(name = "project_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id"))

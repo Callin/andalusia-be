@@ -60,11 +60,11 @@ public class UserService {
     }
 
     /**
-     * Breaks circular reference of Organization that has a list of Users that have an Organization that has a list of
+     * Breaks circular reference of OrganizationEntity that has a list of Users that have an OrganizationEntity that has a list of
      * Users.
      *
      * @param userEntity the user that will have it's circular reference fixed
-     * @return the organization
+     * @return the organizationEntity
      */
     private User mapUserAndRemoveUserListFromOrganization(UserEntity userEntity) {
         User user = mapper.map(userEntity, User.class);
