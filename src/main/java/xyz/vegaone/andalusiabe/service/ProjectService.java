@@ -3,6 +3,7 @@ package xyz.vegaone.andalusiabe.service;
 import org.dozer.Mapper;
 import org.springframework.stereotype.Service;
 import xyz.vegaone.andalusiabe.domain.ProjectEntity;
+import xyz.vegaone.andalusiabe.domain.UserEntity;
 import xyz.vegaone.andalusiabe.dto.Project;
 import xyz.vegaone.andalusiabe.repo.ProjectRepo;
 
@@ -38,6 +39,17 @@ public class ProjectService {
 
     public List<Project> getAllProjectsByOrganizationId(Long id) {
         List<ProjectEntity> projectEntityList = projectRepo.findAllByOrganizationId(id);
+        return projectEntityList
+                .stream()
+                .map(this::mapProjectAndRemoveProjectFromUser)
+                .collect(Collectors.toList());
+    }
+
+    public List<Project> getAllProjectsByUserId(Long id) {
+        UserEntity userEntity = new UserEntity();
+        userEntity.setId(id);
+
+        List<ProjectEntity> projectEntityList = projectRepo.findAllByUsersIsContaining(userEntity);
         return projectEntityList
                 .stream()
                 .map(this::mapProjectAndRemoveProjectFromUser)

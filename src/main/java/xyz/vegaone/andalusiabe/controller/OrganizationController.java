@@ -35,6 +35,11 @@ public class OrganizationController {
         return organizationService.updateOrganization(organization);
     }
 
+    @GetMapping("/user/{id}")
+    public List<Organization> getAllByUsersIsContaining(@PathVariable Long id) {
+        return organizationService.findAllByUsersIsContaining(id);
+    }
+
     @DeleteMapping("{id}")
     public void deleteOrganization(@PathVariable Long id) {
         organizationService.deleteOrganization(id);

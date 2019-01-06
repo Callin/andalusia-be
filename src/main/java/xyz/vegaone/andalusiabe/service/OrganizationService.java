@@ -3,6 +3,8 @@ package xyz.vegaone.andalusiabe.service;
 import org.dozer.Mapper;
 import org.springframework.stereotype.Service;
 import xyz.vegaone.andalusiabe.domain.OrganizationEntity;
+import xyz.vegaone.andalusiabe.domain.UserEntity;
+import xyz.vegaone.andalusiabe.dto.Organization;
 import xyz.vegaone.andalusiabe.repo.OrganizationRepo;
 
 import javax.persistence.EntityNotFoundException;
@@ -25,6 +27,16 @@ public class OrganizationService {
         OrganizationEntity organizationEntity = organizationRepo.findById(id).orElseThrow(EntityNotFoundException::new);
 
         return mapOrganizationAndRemoveOrganizationFromUser(organizationEntity);
+    }
+
+    public List<Organization> findAllByUsersIsContaining(Long userId) {
+        UserEntity userEntity = new UserEntity();
+        userEntity.setId(userId);
+
+        return organizationRepo.findAllByUsersIsContaining(userEntity)
+                .stream()
+                .map(this::mapOrganizationAndRemoveOrganizationFromUser)
+                .collect(Collectors.toList());
     }
 
     public List<xyz.vegaone.andalusiabe.dto.Organization> getAllOrganizations() {

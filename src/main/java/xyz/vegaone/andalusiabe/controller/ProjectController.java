@@ -30,6 +30,11 @@ public class ProjectController {
         return projectService.getAllProjectsByOrganizationId(id);
     }
 
+    @GetMapping("/user/{id}")
+    public List<Project> getAllProjectsByUserId(@PathVariable Long id) {
+        return projectService.getAllProjectsByUserId(id);
+    }
+
     @PostMapping
     public Project createProject(@RequestBody Project project) {
         return projectService.createProject(project);
