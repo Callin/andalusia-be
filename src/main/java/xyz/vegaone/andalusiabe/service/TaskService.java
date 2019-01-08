@@ -55,7 +55,7 @@ public class TaskService {
 
     /**
      * Breaks circular reference of Task that has a list of Users that have an Task that has a list of
-     * USers.
+     * Users.
      *
      * @param taskEntity the task that will have it's circular reference fixed
      * @return the task
