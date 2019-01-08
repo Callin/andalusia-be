@@ -25,14 +25,14 @@ public class BugService {
     public Bug getBug(Long id) {
         BugEntity bugEntity = bugRepo.findById(id).orElseThrow(EntityNotFoundException::new);
 
-        return mapAndRemoveBugFromUserStory(bugEntity);
+        return mapAndRemoveBugFrom(bugEntity);
     }
 
     public List<Bug> getAllUserStories() {
         List<BugEntity> bugEntityList = bugRepo.findAll();
         return bugEntityList
                 .stream()
-                .map(this::mapAndRemoveBugFromUserStory)
+                .map(this::mapAndRemoveBugFrom)
                 .collect(Collectors.toList());
     }
 
@@ -40,13 +40,13 @@ public class BugService {
     public Bug createBug(Bug bug) {
         BugEntity bugEntity =
                 bugRepo.save(mapper.map(bug, BugEntity.class));
-        return mapAndRemoveBugFromUserStory(bugEntity);
+        return mapAndRemoveBugFrom(bugEntity);
     }
 
     public Bug updateBug(Bug bug) {
         BugEntity bugEntity =
                 bugRepo.save(mapper.map(bug, BugEntity.class));
-        return mapAndRemoveBugFromUserStory(bugEntity);
+        return mapAndRemoveBugFrom(bugEntity);
     }
 
     public void deleteBug(Long id) {
@@ -60,7 +60,7 @@ public class BugService {
      * @param bugEntity the bug that will have it's circular reference fixed
      * @return the bug
      */
-    private Bug mapAndRemoveBugFromUserStory(BugEntity bugEntity) {
+    private Bug mapAndRemoveBugFrom(BugEntity bugEntity) {
         Bug bug = mapper.map(bugEntity, Bug.class);
         if (bug.getUserStory() != null) {
             bug.getUserStory().setBugs(null);
