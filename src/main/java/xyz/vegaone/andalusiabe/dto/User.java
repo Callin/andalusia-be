@@ -22,4 +22,10 @@ public class User {
 
     @JsonIgnore
     private List<Project> projects;
+
+    private List<UserStory> userStories;
+
+    private List<Task> tasks;
+
+    private List<Bug> bugs;
 }

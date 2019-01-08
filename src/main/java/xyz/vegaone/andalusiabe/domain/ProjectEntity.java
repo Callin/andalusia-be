@@ -32,4 +32,8 @@ public class ProjectEntity {
             joinColumns = @JoinColumn(name = "project_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id"))
     private List<UserEntity> users;
+
+
+    @OneToMany(mappedBy = "project")
+    private List<UserStoryEntity> userStories;
 }

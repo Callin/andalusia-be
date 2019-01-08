@@ -26,4 +26,7 @@ public class SprintEntity {
     @ManyToOne
     @JoinColumn(name = "project_id")
     private ProjectEntity project;
+
+    @OneToMany(mappedBy = "sprint")
+    private List<UserStoryEntity> userStories;
 }

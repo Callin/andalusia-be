@@ -2,6 +2,7 @@ package xyz.vegaone.andalusiabe.domain;
 
 import lombok.Getter;
 import lombok.Setter;
+import xyz.vegaone.andalusiabe.dto.UserStory;
 
 import javax.persistence.*;
 import java.util.List;
@@ -26,4 +27,15 @@ public class UserEntity {
 
     @ManyToMany(mappedBy = "users")
     private List<ProjectEntity> projects;
+
+    @OneToMany(mappedBy = "user")
+    private List<UserStoryEntity> userStories;
+
+
+    @OneToMany(mappedBy = "user")
+    private List<TaskEntity> tasks;
+
+
+    @OneToMany(mappedBy = "user")
+    private List<BugEntity> bugs;
 }

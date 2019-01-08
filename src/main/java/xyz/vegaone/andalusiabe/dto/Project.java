@@ -23,4 +23,6 @@ public class Project {
 
     private List<User> users;
 
+    private List<UserStory> userStories;
+
 }

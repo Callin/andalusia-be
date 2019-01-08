@@ -161,3 +161,184 @@ databaseChangeLog:
           constraintName: fk_user_project_user
           referencedColumnNames: id
           referencedTableName: user
+  - changeSet:
+      id: 11
+      author: dragos
+      changes:
+      - createTable:
+          columns:
+          - column:
+              name: id
+              type: bigint
+              autoIncrement: true
+              constraints:
+                primaryKey: true
+                nullable: false
+          - column:
+              name: name
+              type: varchar(255)
+          - column:
+              name: description
+              type: varchar(255)
+          - column:
+              name: status
+              type: varchar(255)
+          - column:
+              name: priority
+              type: int
+          - column:
+              name: estimation
+              type: int
+          - column:
+              name: project_id
+              type: bigint
+          - column:
+              name: user_id
+              type: bigint
+          - column:
+              name: sprint_id
+              type: bigint
+          tableName: user_story
+  - changeSet:
+      id: 12
+      author: dragos
+      changes:
+      - createTable:
+          columns:
+          - column:
+              name: id
+              type: bigint
+              autoIncrement: true
+              constraints:
+                primaryKey: true
+                nullable: false
+          - column:
+              name: name
+              type: varchar(255)
+          - column:
+              name: description
+              type: varchar(255)
+          - column:
+              name: status
+              type: varchar(255)
+          - column:
+              name: priority
+              type: int
+          - column:
+              name: estimation
+              type: int
+          - column:
+              name: user_story_id
+              type: bigint
+          - column:
+              name: user_id
+              type: bigint
+          tableName: task
+  - changeSet:
+      id: 13
+      author: dragos
+      changes:
+      - createTable:
+          columns:
+          - column:
+              name: id
+              type: bigint
+              autoIncrement: true
+              constraints:
+                primaryKey: true
+                nullable: false
+          - column:
+              name: name
+              type: varchar(255)
+          - column:
+              name: description
+              type: varchar(255)
+          - column:
+              name: status
+              type: varchar(255)
+          - column:
+              name: priority
+              type: int
+          - column:
+              name: estimation
+              type: int
+          - column:
+              name: severity
+              type: varchar(255)
+          - column:
+              name: user_story_id
+              type: bigint
+          - column:
+              name: user_id
+              type: bigint
+          tableName: bug
+  - changeSet:
+      id: 14
+      author: dragos
+      changes:
+      - addForeignKeyConstraint:
+          baseColumnNames: project_id
+          baseTableName: user_story
+          constraintName: fk_project_user_story
+          referencedColumnNames: id
+          referencedTableName: project
+  - changeSet:
+      id: 15
+      author: dragos
+      changes:
+      - addForeignKeyConstraint:
+          baseColumnNames: user_id
+          baseTableName: user_story
+          constraintName: fk_user_user_story
+          referencedColumnNames: id
+          referencedTableName: user
+  - changeSet:
+      id: 16
+      author: dragos
+      changes:
+      - addForeignKeyConstraint:
+          baseColumnNames: sprint_id
+          baseTableName: user_story
+          constraintName: fk_sprint_user_story
+          referencedColumnNames: id
+          referencedTableName: sprint
+  - changeSet:
+      id: 17
+      author: dragos
+      changes:
+      - addForeignKeyConstraint:
+          baseColumnNames: user_story_id
+          baseTableName: task
+          constraintName: fk_user_story_task
+          referencedColumnNames: id
+          referencedTableName: user_story
+  - changeSet:
+      id: 18
+      author: dragos
+      changes:
+      - addForeignKeyConstraint:
+          baseColumnNames: user_id
+          baseTableName: task
+          constraintName: fk_user_task
+          referencedColumnNames: id
+          referencedTableName: user
+  - changeSet:
+      id: 19
+      author: dragos
+      changes:
+      - addForeignKeyConstraint:
+          baseColumnNames: user_story_id
+          baseTableName: bug
+          constraintName: fk_user_story_bug
+          referencedColumnNames: id
+          referencedTableName: user_story
+  - changeSet:
+      id: 20
+      author: dragos
+      changes:
+      - addForeignKeyConstraint:
+          baseColumnNames: user_id
+          baseTableName: bug
+          constraintName: fk_user_bug
+          referencedColumnNames: id
+          referencedTableName: user
