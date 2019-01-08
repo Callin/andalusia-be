@@ -25,14 +25,14 @@ public class TaskService {
     public Task getTask(Long id) {
         TaskEntity taskEntity = taskRepo.findById(id).orElseThrow(EntityNotFoundException::new);
 
-        return mapTaskAndRemoveTaskFromUser(taskEntity);
+        return mapTaskAndRemoveTaskFromUserStory(taskEntity);
     }
 
     public List<Task> getAllUserStories() {
         List<TaskEntity> taskEntityList = taskRepo.findAll();
         return taskEntityList
                 .stream()
-                .map(this::mapTaskAndRemoveTaskFromUser)
+                .map(this::mapTaskAndRemoveTaskFromUserStory)
                 .collect(Collectors.toList());
     }
 
@@ -40,13 +40,13 @@ public class TaskService {
     public Task createTask(Task task) {
         TaskEntity taskEntity =
                 taskRepo.save(mapper.map(task, TaskEntity.class));
-        return mapTaskAndRemoveTaskFromUser(taskEntity);
+        return mapTaskAndRemoveTaskFromUserStory(taskEntity);
     }
 
     public Task updateTask(Task task) {
         TaskEntity taskEntity =
                 taskRepo.save(mapper.map(task, TaskEntity.class));
-        return mapTaskAndRemoveTaskFromUser(taskEntity);
+        return mapTaskAndRemoveTaskFromUserStory(taskEntity);
     }
 
     public void deleteTask(Long id) {
@@ -55,12 +55,12 @@ public class TaskService {
 
     /**
      * Breaks circular reference of Task that has a list of Users that have an Task that has a list of
-     * USers.
+     * Users.
      *
      * @param taskEntity the task that will have it's circular reference fixed
      * @return the task
      */
-    private Task mapTaskAndRemoveTaskFromUser(TaskEntity taskEntity) {
+    private Task mapTaskAndRemoveTaskFromUserStory(TaskEntity taskEntity) {
         Task task = mapper.map(taskEntity, Task.class);
         if (task.getUserStory() != null) {
             task.getUserStory().setTasks(null);
