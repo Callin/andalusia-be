@@ -25,14 +25,14 @@ public class UserStoryService {
     public UserStory getUserStory(Long id) {
         UserStoryEntity userStoryEntity = userStoryRepo.findById(id).orElseThrow(EntityNotFoundException::new);
 
-        return mapUserStoryAndRemoveUserStoryFromUser(userStoryEntity);
+        return mapUserStoryAndRemoveUserStoryFro(userStoryEntity);
     }
 
     public List<UserStory> getAllUserStories() {
         List<UserStoryEntity> userStoryEntityList = userStoryRepo.findAll();
         return userStoryEntityList
                 .stream()
-                .map(this::mapUserStoryAndRemoveUserStoryFromUser)
+                .map(this::mapUserStoryAndRemoveUserStoryFro)
                 .collect(Collectors.toList());
     }
 
@@ -40,13 +40,13 @@ public class UserStoryService {
     public UserStory createUserStory(UserStory userStory) {
         UserStoryEntity userStoryEntity =
                 userStoryRepo.save(mapper.map(userStory, UserStoryEntity.class));
-        return mapUserStoryAndRemoveUserStoryFromUser(userStoryEntity);
+        return mapUserStoryAndRemoveUserStoryFro(userStoryEntity);
     }
 
     public UserStory updateUserStory(UserStory userStory) {
         UserStoryEntity userStoryEntity =
                 userStoryRepo.save(mapper.map(userStory, UserStoryEntity.class));
-        return mapUserStoryAndRemoveUserStoryFromUser(userStoryEntity);
+        return mapUserStoryAndRemoveUserStoryFro(userStoryEntity);
     }
 
     public void deleteUserStory(Long id) {
@@ -60,7 +60,7 @@ public class UserStoryService {
      * @param userStoryEntity the userStory that will have it's circular reference fixed
      * @return the userStory
      */
-    private UserStory mapUserStoryAndRemoveUserStoryFromUser(UserStoryEntity userStoryEntity) {
+    private UserStory mapUserStoryAndRemoveUserStoryFro(UserStoryEntity userStoryEntity) {
         UserStory userStory = mapper.map(userStoryEntity, UserStory.class);
         if (userStory.getProject() != null) {
             userStory.setProject(null);
