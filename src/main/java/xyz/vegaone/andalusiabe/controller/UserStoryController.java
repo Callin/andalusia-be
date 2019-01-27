@@ -26,13 +26,13 @@ public class UserStoryController {
     }
 
     @PostMapping
-    public UserStory createUserStory(@RequestBody UserStory sprint) {
-        return userStoryService.createUserStory(sprint);
+    public UserStory createUserStory(@RequestBody UserStory userStory) {
+        return userStoryService.createUserStory(userStory);
     }
 
     @PutMapping
-    public UserStory updateUserStory(@RequestBody UserStory sprint) {
-        return userStoryService.updateUserStory(sprint);
+    public UserStory updateUserStory(@RequestBody UserStory userStory) {
+        return userStoryService.updateUserStory(userStory);
     }
 
     @DeleteMapping("{id}")

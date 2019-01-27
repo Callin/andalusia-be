@@ -1,7 +1,8 @@
 package xyz.vegaone.andalusiabe.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -21,8 +22,9 @@ public class Sprint {
 
     private Date endDate;
 
+    @JsonBackReference(value = "project-sprints")
     private Project project;
 
-    @JsonIgnore
+    @JsonManagedReference(value = "sprint-userstory")
     private List<UserStory> userStories;
 }

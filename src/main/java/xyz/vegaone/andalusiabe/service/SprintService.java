@@ -25,14 +25,14 @@ public class SprintService {
     public Sprint getSprint(Long id) {
         SprintEntity sprintEntity = sprintRepo.findById(id).orElseThrow(EntityNotFoundException::new);
 
-        return mapSprintAndRemoveSprintFromUser(sprintEntity);
+        return mapper.map(sprintEntity, Sprint.class);
     }
 
     public List<Sprint> getAllSprints() {
         List<SprintEntity> sprintEntityList = sprintRepo.findAll();
         return sprintEntityList
                 .stream()
-                .map(this::mapSprintAndRemoveSprintFromUser)
+                .map(sprintEntity -> mapper.map(sprintEntity, Sprint.class))
                 .collect(Collectors.toList());
     }
 
@@ -40,31 +40,17 @@ public class SprintService {
     public Sprint createSprint(Sprint sprint) {
         SprintEntity sprintEntity =
                 sprintRepo.save(mapper.map(sprint, SprintEntity.class));
-        return mapSprintAndRemoveSprintFromUser(sprintEntity);
+        return mapper.map(sprintEntity, Sprint.class);
     }
 
     public Sprint updateSprint(Sprint sprint) {
         SprintEntity sprintEntity =
                 sprintRepo.save(mapper.map(sprint, SprintEntity.class));
-        return mapSprintAndRemoveSprintFromUser(sprintEntity);
+        return mapper.map(sprintEntity, Sprint.class);
     }
 
     public void deleteSprint(Long id) {
         sprintRepo.deleteById(id);
     }
 
-    /**
-     * Breaks circular reference of Sprint that has a list of Users that have an Sprint that has a list of
-     * USers.
-     *
-     * @param sprintEntity the sprint that will have it's circular reference fixed
-     * @return the sprint
-     */
-    private Sprint mapSprintAndRemoveSprintFromUser(SprintEntity sprintEntity) {
-        Sprint sprint = mapper.map(sprintEntity, Sprint.class);
-        if (sprint.getProject() != null) {
-            sprint.setProject(null);
-        }
-        return sprint;
-    }
 }

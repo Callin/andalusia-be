@@ -1,5 +1,6 @@
 package xyz.vegaone.andalusiabe.dto;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
@@ -24,10 +25,13 @@ public class UserStory {
 
     private Integer estimation;
 
+    @JsonBackReference(value = "project-userstory")
     private Project project;
 
+    @JsonBackReference(value = "sprint-userstory")
     private Sprint sprint;
 
+    @JsonBackReference(value = "user-userstory")
     private User user;
 
     @JsonManagedReference(value = "userstory-task")

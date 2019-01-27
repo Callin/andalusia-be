@@ -26,14 +26,14 @@ public class ProjectService {
     public Project getProject(Long id) {
         ProjectEntity projectEntity = projectRepo.findById(id).orElseThrow(EntityNotFoundException::new);
 
-        return mapProjectAndRemoveProjectFromUser(projectEntity);
+        return mapper.map(projectEntity, Project.class);
     }
 
     public List<Project> getAllProjects() {
         List<ProjectEntity> projectEntityList = projectRepo.findAll();
         return projectEntityList
                 .stream()
-                .map(this::mapProjectAndRemoveProjectFromUser)
+                .map(projectEntity -> mapper.map(projectEntity, Project.class))
                 .collect(Collectors.toList());
     }
 
@@ -41,7 +41,7 @@ public class ProjectService {
         List<ProjectEntity> projectEntityList = projectRepo.findAllByOrganizationId(id);
         return projectEntityList
                 .stream()
-                .map(this::mapProjectAndRemoveProjectFromUser)
+                .map(projectEntity -> mapper.map(projectEntity, Project.class))
                 .collect(Collectors.toList());
     }
 
@@ -52,7 +52,7 @@ public class ProjectService {
         List<ProjectEntity> projectEntityList = projectRepo.findAllByUsersIsContaining(userEntity);
         return projectEntityList
                 .stream()
-                .map(this::mapProjectAndRemoveProjectFromUser)
+                .map(projectEntity -> mapper.map(projectEntity, Project.class))
                 .collect(Collectors.toList());
     }
 
@@ -60,40 +60,16 @@ public class ProjectService {
     public Project createProject(Project project) {
         ProjectEntity projectEntity =
                 projectRepo.save(mapper.map(project, ProjectEntity.class));
-        return mapProjectAndRemoveProjectFromUser(projectEntity);
+        return mapper.map(projectEntity, Project.class);
     }
 
     public Project updateProject(Project project) {
         ProjectEntity projectEntity =
                 projectRepo.save(mapper.map(project, ProjectEntity.class));
-        return mapProjectAndRemoveProjectFromUser(projectEntity);
+        return mapper.map(projectEntity, Project.class);
     }
 
     public void deleteProject(Long id) {
         projectRepo.deleteById(id);
-    }
-
-    /**
-     * Breaks circular reference of Project that has a list of Users that have an Project that has a list of
-     * USers.
-     *
-     * @param projectEntity the project that will have it's circular reference fixed
-     * @return the project
-     */
-    private Project mapProjectAndRemoveProjectFromUser(ProjectEntity projectEntity) {
-        Project project = mapper.map(projectEntity, Project.class);
-        if (project.getUsers() != null) {
-            project.getUsers().forEach(user -> user.setProjects(null));
-        }
-
-        if (project.getSprints() != null) {
-            project.getSprints().forEach(sprint -> sprint.setProject(null));
-        }
-
-        if (project.getOrganization() != null) {
-            project.getOrganization().getUsers().forEach(user -> user.setOrganization(null));
-        }
-
-        return project;
     }
 }

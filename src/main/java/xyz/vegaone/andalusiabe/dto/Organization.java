@@ -1,7 +1,7 @@
 package xyz.vegaone.andalusiabe.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -17,9 +17,10 @@ public class Organization {
 
     private String description;
 
+    @JsonManagedReference(value = "organization-users")
     private List<User> users;
 
-    @JsonIgnore
+    @JsonManagedReference(value = "organization-projects")
     private List<Project> projects;
 
 }

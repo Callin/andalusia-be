@@ -1,7 +1,9 @@
 package xyz.vegaone.andalusiabe.dto;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -18,17 +20,18 @@ public class User {
 
     private String email;
 
+    @JsonBackReference(value = "organization-users")
     private Organization organization;
 
     @JsonIgnore
     private List<Project> projects;
 
-    @JsonIgnore
+    @JsonManagedReference(value = "user-userstory")
     private List<UserStory> userStories;
 
-    @JsonIgnore
+    @JsonManagedReference(value = "user-task")
     private List<Task> tasks;
 
-    @JsonIgnore
+    @JsonManagedReference(value = "user-bug")
     private List<Bug> bugs;
 }

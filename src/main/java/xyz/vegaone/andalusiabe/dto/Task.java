@@ -25,5 +25,6 @@ public class Task {
     @JsonBackReference(value = "userstory-task")
     private UserStory userStory;
 
+    @JsonBackReference(value = "user-task")
     private User user;
 }

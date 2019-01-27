@@ -23,10 +23,10 @@ public class OrganizationService {
         this.mapper = mapper;
     }
 
-    public xyz.vegaone.andalusiabe.dto.Organization getOrganization(Long id) {
+    public Organization getOrganization(Long id) {
         OrganizationEntity organizationEntity = organizationRepo.findById(id).orElseThrow(EntityNotFoundException::new);
 
-        return mapOrganizationAndRemoveOrganizationFromUser(organizationEntity);
+        return mapper.map(organizationEntity, Organization.class);
     }
 
     public List<Organization> findAllByUsersIsContaining(Long userId) {
@@ -35,47 +35,32 @@ public class OrganizationService {
 
         return organizationRepo.findAllByUsersIsContaining(userEntity)
                 .stream()
-                .map(this::mapOrganizationAndRemoveOrganizationFromUser)
+                .map(organizationEntity -> mapper.map(organizationEntity, Organization.class))
                 .collect(Collectors.toList());
     }
 
-    public List<xyz.vegaone.andalusiabe.dto.Organization> getAllOrganizations() {
+    public List<Organization> getAllOrganizations() {
         List<OrganizationEntity> organizationEntityEntityList = organizationRepo.findAll();
         return organizationEntityEntityList
                 .stream()
-                .map(this::mapOrganizationAndRemoveOrganizationFromUser)
+                .map(organizationEntity -> mapper.map(organizationEntity, Organization.class))
                 .collect(Collectors.toList());
     }
 
 
-    public xyz.vegaone.andalusiabe.dto.Organization createOrganization(xyz.vegaone.andalusiabe.dto.Organization organization) {
+    public Organization createOrganization(Organization organization) {
         OrganizationEntity organizationEntity =
                 organizationRepo.save(mapper.map(organization, OrganizationEntity.class));
-        return mapOrganizationAndRemoveOrganizationFromUser(organizationEntity);
+        return mapper.map(organizationEntity, Organization.class);
     }
 
-    public xyz.vegaone.andalusiabe.dto.Organization updateOrganization(xyz.vegaone.andalusiabe.dto.Organization organization) {
+    public Organization updateOrganization(Organization organization) {
         OrganizationEntity organizationEntity =
                 organizationRepo.save(mapper.map(organization, OrganizationEntity.class));
-        return mapOrganizationAndRemoveOrganizationFromUser(organizationEntity);
+        return mapper.map(organizationEntity, Organization.class);
     }
 
     public void deleteOrganization(Long id) {
         organizationRepo.deleteById(id);
-    }
-
-    /**
-     * Breaks circular reference of OrganizationEntity that has a list of Users that have an OrganizationEntity that has a list of
-     * USers.
-     *
-     * @param organizationEntity the organizationEntity that will have it's circular reference fixed
-     * @return the organizationEntity
-     */
-    private xyz.vegaone.andalusiabe.dto.Organization mapOrganizationAndRemoveOrganizationFromUser(OrganizationEntity organizationEntity) {
-        xyz.vegaone.andalusiabe.dto.Organization organization = mapper.map(organizationEntity, xyz.vegaone.andalusiabe.dto.Organization.class);
-        if (organization.getUsers() != null) {
-            organization.getUsers().forEach(user -> user.setOrganization(null));
-        }
-        return organization;
     }
 }

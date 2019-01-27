@@ -25,14 +25,14 @@ public class UserStoryService {
     public UserStory getUserStory(Long id) {
         UserStoryEntity userStoryEntity = userStoryRepo.findById(id).orElseThrow(EntityNotFoundException::new);
 
-        return mapUserStoryAndRemoveProject(userStoryEntity);
+        return mapper.map(userStoryEntity, UserStory.class);
     }
 
     public List<UserStory> getAllUserStories() {
         List<UserStoryEntity> userStoryEntityList = userStoryRepo.findAll();
         return userStoryEntityList
                 .stream()
-                .map(this::mapUserStoryAndRemoveProject)
+                .map(userStoryEntity -> mapper.map(userStoryEntity, UserStory.class))
                 .collect(Collectors.toList());
     }
 
@@ -40,31 +40,16 @@ public class UserStoryService {
     public UserStory createUserStory(UserStory userStory) {
         UserStoryEntity userStoryEntity =
                 userStoryRepo.save(mapper.map(userStory, UserStoryEntity.class));
-        return mapUserStoryAndRemoveProject(userStoryEntity);
+        return mapper.map(userStoryEntity, UserStory.class);
     }
 
     public UserStory updateUserStory(UserStory userStory) {
         UserStoryEntity userStoryEntity =
                 userStoryRepo.save(mapper.map(userStory, UserStoryEntity.class));
-        return mapUserStoryAndRemoveProject(userStoryEntity);
+        return mapper.map(userStoryEntity, UserStory.class);
     }
 
     public void deleteUserStory(Long id) {
         userStoryRepo.deleteById(id);
-    }
-
-    /**
-     * Breaks circular reference of UserStory that has a list of Users that have an UserStory that has a list of
-     * USers.
-     *
-     * @param userStoryEntity the userStory that will have it's circular reference fixed
-     * @return the userStory
-     */
-    private UserStory mapUserStoryAndRemoveProject(UserStoryEntity userStoryEntity) {
-        UserStory userStory = mapper.map(userStoryEntity, UserStory.class);
-        if (userStory.getProject() != null) {
-            userStory.setProject(null);
-        }
-        return userStory;
     }
 }

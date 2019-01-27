@@ -24,7 +24,7 @@ public class UserService {
 
     public User getUser(Long id) {
         UserEntity userEntity = userRepo.findById(id).orElseThrow(EntityNotFoundException::new);
-        return mapUserAndRemoveUserListFromOrganization(userEntity);
+        return mapper.map(userEntity, User.class);
     }
 
     public List<User> getAllUsers() {
@@ -32,7 +32,7 @@ public class UserService {
 
         return userEntityList
                 .stream()
-                .map(this::mapUserAndRemoveUserListFromOrganization)
+                .map(userEntity -> mapper.map(userEntity, User.class))
                 .collect(Collectors.toList());
     }
 
@@ -41,36 +41,22 @@ public class UserService {
 
         return userEntityList
                 .stream()
-                .map(this::mapUserAndRemoveUserListFromOrganization)
+                .map(userEntity -> mapper.map(userEntity, User.class))
                 .collect(Collectors.toList());
     }
 
     public User createUser(User User) {
         UserEntity userEntity = userRepo.save(mapper.map(User, UserEntity.class));
-        return mapUserAndRemoveUserListFromOrganization(userEntity);
+        return mapper.map(userEntity, User.class);
     }
 
     public User updateUser(User User) {
         UserEntity userEntity = userRepo.save(mapper.map(User, UserEntity.class));
-        return mapUserAndRemoveUserListFromOrganization(userEntity);
+        return mapper.map(userEntity, User.class);
     }
 
     public void deleteUser(Long id) {
         userRepo.deleteById(id);
     }
 
-    /**
-     * Breaks circular reference of OrganizationEntity that has a list of Users that have an OrganizationEntity that has a list of
-     * Users.
-     *
-     * @param userEntity the user that will have it's circular reference fixed
-     * @return the organizationEntity
-     */
-    private User mapUserAndRemoveUserListFromOrganization(UserEntity userEntity) {
-        User user = mapper.map(userEntity, User.class);
-        if (user.getOrganization() != null) {
-            user.getOrganization().setUsers(null);
-        }
-        return user;
-    }
 }
