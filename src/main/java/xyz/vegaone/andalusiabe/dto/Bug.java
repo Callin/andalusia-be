@@ -27,6 +27,5 @@ public class Bug {
     @JsonBackReference(value = "userstory-bug")
     private UserStory userStory;
 
-    @JsonBackReference(value = "user-bug")
     private User user;
 }

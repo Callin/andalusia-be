@@ -31,7 +31,6 @@ public class UserStory {
     @JsonBackReference(value = "sprint-userstory")
     private Sprint sprint;
 
-    @JsonBackReference(value = "user-userstory")
     private User user;
 
     @JsonManagedReference(value = "userstory-task")

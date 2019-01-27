@@ -26,12 +26,12 @@ public class User {
     @JsonIgnore
     private List<Project> projects;
 
-    @JsonManagedReference(value = "user-userstory")
+    @JsonIgnore
     private List<UserStory> userStories;
 
-    @JsonManagedReference(value = "user-task")
+    @JsonIgnore
     private List<Task> tasks;
 
-    @JsonManagedReference(value = "user-bug")
+    @JsonIgnore
     private List<Bug> bugs;
 }
