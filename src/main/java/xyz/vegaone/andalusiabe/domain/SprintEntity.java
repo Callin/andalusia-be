@@ -13,6 +13,20 @@ import java.util.List;
 @Setter
 public class SprintEntity {
 
+    public SprintEntity() {
+    }
+
+    public SprintEntity(
+            Long id,
+            Integer number,
+            Date startDate,
+            Date endDate) {
+        this.id = id;
+        this.number = number;
+        this.startDate = startDate;
+        this.endDate = endDate;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

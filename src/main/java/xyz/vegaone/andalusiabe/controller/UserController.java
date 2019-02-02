@@ -26,8 +26,13 @@ public class UserController {
     }
 
     @GetMapping("/organization/{id}")
-    public List<User> getAllProjectsByOrganizationId(@PathVariable Long id) {
+    public List<User> getAllUserssByOrganizationId(@PathVariable Long id) {
         return userService.getAllUsersByOrganizationId(id);
+    }
+
+    @GetMapping("/project/{id}")
+    public List<User> getAllUsersByProjectId(@PathVariable Long id) {
+        return userService.getAllUsersByProjectId(id);
     }
 
     @PostMapping

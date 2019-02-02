@@ -1,5 +1,6 @@
 package xyz.vegaone.andalusiabe.controller;
 
+import com.sun.javaws.exceptions.InvalidArgumentException;
 import org.springframework.web.bind.annotation.*;
 import xyz.vegaone.andalusiabe.dto.UserStory;
 import xyz.vegaone.andalusiabe.service.UserStoryService;
@@ -13,6 +14,17 @@ public class UserStoryController {
 
     public UserStoryController(UserStoryService userStoryService) {
         this.userStoryService = userStoryService;
+    }
+
+    @GetMapping("/project/{projectId}/currentsprint")
+    public List<UserStory> getAllUserStoriesByProjectIdAndCurrentSprint(@PathVariable Long projectId) throws InvalidArgumentException {
+        return userStoryService.getAllUserStoriesByProjectIdAndCurrentSprint(projectId);
+    }
+
+    @GetMapping("/project/{projectId}/sprint/{sprintId}")
+    public List<UserStory> getAllUserStoriesByProjectIdAndSprintId(@PathVariable Long projectId,
+                                                                   @PathVariable Long sprintId) {
+        return userStoryService.getAllUserStoriesByProjectIdAndSprintId(projectId, sprintId);
     }
 
     @GetMapping("{id}")
