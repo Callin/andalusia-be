@@ -1,6 +1,5 @@
 package xyz.vegaone.andalusiabe.service;
 
-import com.sun.javaws.exceptions.InvalidArgumentException;
 import org.dozer.Mapper;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -9,10 +8,10 @@ import xyz.vegaone.andalusiabe.domain.SprintEntity;
 import xyz.vegaone.andalusiabe.domain.UserStoryEntity;
 import xyz.vegaone.andalusiabe.dto.Sprint;
 import xyz.vegaone.andalusiabe.dto.UserStory;
+import xyz.vegaone.andalusiabe.exception.InvalidArgumentException;
 import xyz.vegaone.andalusiabe.repo.UserStoryRepo;
 
 import javax.persistence.EntityNotFoundException;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -52,7 +51,7 @@ public class UserStoryService {
         List<Sprint> sprintList = sprintService.getSprintsByProjectIdAndDateInterval(projectId, new Date(), new Date());
 
         if (CollectionUtils.isEmpty(sprintList)) {
-            throw new InvalidArgumentException(new String[]{"There is no current sprint defined"});
+            throw new InvalidArgumentException("There is no current sprint defined");
         }
 
         return getAllUserStoriesByProjectIdAndSprintId(projectId, sprintList.get(0).getId());

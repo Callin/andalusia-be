@@ -25,5 +25,4 @@ public interface SprintRepo extends JpaRepository<SprintEntity, Long> {
                                                                          @Param("from") Date from,
                                                                          @Param("to") Date to);
 
-    SprintEntity findByProjectAndId(ProjectEntity project, Long id);
 }

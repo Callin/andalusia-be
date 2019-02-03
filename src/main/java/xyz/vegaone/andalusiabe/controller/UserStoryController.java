@@ -1,8 +1,8 @@
 package xyz.vegaone.andalusiabe.controller;
 
-import com.sun.javaws.exceptions.InvalidArgumentException;
 import org.springframework.web.bind.annotation.*;
 import xyz.vegaone.andalusiabe.dto.UserStory;
+import xyz.vegaone.andalusiabe.exception.InvalidArgumentException;
 import xyz.vegaone.andalusiabe.service.UserStoryService;
 
 import java.util.List;

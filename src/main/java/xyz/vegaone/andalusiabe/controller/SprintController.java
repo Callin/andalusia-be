@@ -25,6 +25,11 @@ public class SprintController {
         return sprintService.getAllByProjectIdBrief(projectId);
     }
 
+    @GetMapping("/project/{projectId}")
+    public List<Sprint> getAllByProjectId(@PathVariable Long projectId) {
+        return sprintService.getAllByProjectIdBrief(projectId);
+    }
+
     @GetMapping("/all")
     public List<Sprint> getAllSprints() {
         return sprintService.getAllSprints();

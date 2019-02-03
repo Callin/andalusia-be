@@ -35,6 +35,17 @@ public class SprintService {
 
     }
 
+    public List<Sprint> getAllByProjectId(Long projectId) {
+        ProjectEntity projectEntity = new ProjectEntity();
+        projectEntity.setId(projectId);
+
+        return sprintRepo.findAllByProject(projectEntity)
+                .stream()
+                .map(sprintEntity -> mapper.map(sprintEntity, Sprint.class))
+                .collect(Collectors.toList());
+
+    }
+
     public List<Sprint> getSprintsByProjectIdAndDateInterval(Long projectId, Date from, Date to) {
         ProjectEntity projectEntity = new ProjectEntity();
         projectEntity.setId(projectId);
