@@ -2,6 +2,7 @@ package xyz.vegaone.andalusiabe.service;
 
 import org.dozer.Mapper;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 import xyz.vegaone.andalusiabe.domain.ProjectEntity;
 import xyz.vegaone.andalusiabe.domain.SprintEntity;
@@ -73,12 +74,14 @@ public class UserStoryService {
     }
 
 
+    @Transactional
     public UserStory createUserStory(UserStory userStory) {
         UserStoryEntity userStoryEntity =
                 userStoryRepo.save(mapper.map(userStory, UserStoryEntity.class));
         return mapper.map(userStoryEntity, UserStory.class);
     }
 
+    @Transactional
     public UserStory updateUserStory(UserStory userStory) {
         UserStoryEntity userStoryEntity =
                 userStoryRepo.save(mapper.map(userStory, UserStoryEntity.class));
