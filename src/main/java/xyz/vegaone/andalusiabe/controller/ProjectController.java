@@ -20,6 +20,11 @@ public class ProjectController {
         return projectService.getProject(id);
     }
 
+    @GetMapping("{id}/brief")
+    public Project getProjectBrief(@PathVariable Long id) {
+        return projectService.getProjectBrief(id);
+    }
+
     @GetMapping("/all")
     public List<Project> getAllProjects() {
         return projectService.getAllProjects();

@@ -29,6 +29,12 @@ public class ProjectService {
         return mapper.map(projectEntity, Project.class);
     }
 
+    public Project getProjectBrief(Long id) {
+        ProjectEntity projectEntity = projectRepo.findByIdBrief(id);
+
+        return mapper.map(projectEntity, Project.class);
+    }
+
     public List<Project> getAllProjects() {
         List<ProjectEntity> projectEntityList = projectRepo.findAll();
         return projectEntityList
