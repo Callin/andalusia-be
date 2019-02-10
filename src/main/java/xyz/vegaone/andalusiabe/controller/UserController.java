@@ -49,4 +49,9 @@ public class UserController {
     public void deleteUser(@PathVariable Long id) {
         userService.deleteUser(id);
     }
+
+    @GetMapping("/authenticate")
+    public boolean checkCredentials() {
+        return true;
+    }
 }
