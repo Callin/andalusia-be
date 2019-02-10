@@ -342,3 +342,20 @@ databaseChangeLog:
           constraintName: fk_user_bug
           referencedColumnNames: id
           referencedTableName: user
+  - changeSet:
+      id: 21
+      author: dragos
+      changes:
+      - modifyDataType:
+          columnName: email
+          newDataType: varchar(191)
+          tableName: user
+  - changeSet:
+      id: 22
+      author: dragos
+      changes:
+      - addUniqueConstraint:
+          columnNames: email
+          constraintName: unique_email
+          tableName: user
+

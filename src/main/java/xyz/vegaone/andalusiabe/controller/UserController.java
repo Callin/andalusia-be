@@ -50,8 +50,8 @@ public class UserController {
         userService.deleteUser(id);
     }
 
-    @GetMapping("/authenticate")
-    public boolean checkCredentials() {
-        return true;
+    @GetMapping("/{email}/authenticate")
+    public User checkCredentials(@PathVariable String email) {
+        return userService.getUserByEmail(email);
     }
 }

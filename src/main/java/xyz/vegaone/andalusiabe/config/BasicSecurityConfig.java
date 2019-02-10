@@ -19,11 +19,13 @@ public class BasicSecurityConfig extends WebSecurityConfigurerAdapter {
     public void configureGlobal(AuthenticationManagerBuilder auth)
             throws Exception {
         auth.inMemoryAuthentication()
-                .withUser("dragos").password("{noop}dragos").authorities("ROLE_USER", "ROLE_ADMIN")
+                .withUser("dragos@mail.com").password("{noop}dragos").authorities("ROLE_USER", "ROLE_ADMIN")
                 .and()
-                .withUser("david").password("{noop}david").authorities("ROLE_USER", "ROLE_ADMIN")
+                .withUser("david@mail.com").password("{noop}david").authorities("ROLE_USER", "ROLE_ADMIN")
                 .and()
-                .withUser("bogdan").password("{noop}bogdan").authorities("ROLE_USER", "ROLE_ADMIN");
+                .withUser("oana@mail.com").password("{noop}oana").authorities("ROLE_USER", "ROLE_ADMIN")
+                .and()
+                .withUser("bogdan@mail.com").password("{noop}bogdan").authorities("ROLE_USER", "ROLE_ADMIN");
     }
 
     @Override

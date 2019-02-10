@@ -28,6 +28,11 @@ public class UserService {
         return mapper.map(userEntity, User.class);
     }
 
+    public User getUserByEmail(String email) {
+        UserEntity userEntity = userRepo.findByEmail(email);
+        return mapper.map(userEntity, User.class);
+    }
+
     public List<User> getAllUsers() {
         List<UserEntity> userEntityList = userRepo.findAll();
 
