@@ -358,4 +358,27 @@ databaseChangeLog:
           columnNames: email
           constraintName: unique_email
           tableName: user
-
+  - changeSet:
+        id: 23
+        author: dragos
+        changes:
+        - modifyDataType:
+            columnName: description
+            newDataType: varchar(2000)
+            tableName: task
+  - changeSet:
+        id: 24
+        author: dragos
+        changes:
+        - modifyDataType:
+            columnName: description
+            newDataType: varchar(2000)
+            tableName: bug
+  - changeSet:
+        id: 25
+        author: dragos
+        changes:
+        - modifyDataType:
+            columnName: description
+            newDataType: varchar(2000)
+            tableName: user_story
